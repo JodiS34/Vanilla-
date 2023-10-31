@@ -107,8 +107,15 @@ function handleSubmit(event) {
   let cityInputElement = document.querySelector("#city-input");
   search(cityInputElement.value);
 }
+function displayFahrenheitLinkTemperature(event) {
+  event.preventDefault();
+  let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
+  alert(fahrenheitTemperature);
+  let temperatureElement = document.querySelector("#temperature");
+  temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
+}
 
-search("New York");
+let celsiusTemperature = null;
 
 axios.get(apiURL).then(displayTemperature);
 let form = document.querySelector("#search-form");
@@ -116,3 +123,5 @@ form.addEventListener("submit", handleSubmit);
 
 let fahrenheitLink = document.querySelector("# fahrenheit-link");
 fahrenheitLink.addEventListener("click", displayFahrenheitLinkTemperature);
+
+search("New York");
