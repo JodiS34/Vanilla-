@@ -1,3 +1,24 @@
+function refreshWeather(response) {
+  let temperatureElement = document.querySelector("#temperature");
+  let temperature = response.data.temperature.current;
+  let cityElement = document.querySelector("#city");
+  let descriptionElement = document.querySelector("#description");
+  let humidityElement = document.querySelector("#humidity");
+  let windSpeedElement = document.querySelector("#wind-speed");
+  let timeElement = document.querySelector("#time");
+  let date = new Date(response.data.time * 1000);
+  let iconElement = document.querySelector("#icon");
+
+  cityElement.innerHTML = response.data.city;
+  timeElement.innerHTML = formatDate(date);
+  descriptionElement.innerHTML = response.data.condition.description;
+  humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
+  windSpeedElement.innerHTML = `${response.data.wind.speed}km/h`;
+  temperatureElement.innerHTML = Math.round(temperature);
+  iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
+
+  getForecast(response.data.city);
+}
 function formatDate(timestamp) {
   let date = new Date(timestamp);
   let hours = date.getHours();
@@ -69,6 +90,21 @@ function displayTemperature(response) {
   let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid={Apikey}&units=metric`;
   axios.get(apiURL).then(displayTemperature);
 }
+function searchCity(city) {
+  let apiKey = "7413b84e1e3f7a605f2df00a1bf1d6f2";
+  let city = "Millville";
+  let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid={Apikey}&units=metric`;
+  axios.get(apiURL).then(displayTemperature);
+}
+forecastHTML = forecastHTML + `</div>`;
+forecastElement.innerHTML = forecastHTML;
+
+function displayTemperature(response) {
+  let apiKey = "7413b84e1e3f7a605f2df00a1bf1d6f2";
+  let city = "New York";
+  let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid={Apikey}&units=metric`;
+  axios.get(apiURL).then(displayTemperature);
+}
 
 function displayTemperature(response) {
   let temperatureElement = document.querySelector("#temperature");
@@ -94,13 +130,6 @@ function displayTemperature(response) {
   iconElement.setAttribute("alt", response.data.weather[0].description);
 
   getForecast(response.data.coord);
-}
-
-function search(city) {
-  let apiKey = "7413b84e1e3f7a605f2df00a1bf1d6f2";
-  let city = "New York";
-  let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid={Apikey}&units=metric`;
-  axios.get(apiURL).then(displayTemperature);
 }
 function handleSubmit(event) {
   event.preventDefault();
@@ -136,4 +165,4 @@ fahrenheitLink.addEventListener("click", displayFahrenheitLinkTemperature);
 let celsiusLink = document.querySelector("#celsius-link");
 celsiusLink.addEventListener("click", displaycelsiusLinkTemperature);
 
-search("New York");
+search("Millville");
